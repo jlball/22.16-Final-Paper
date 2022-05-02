@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<materials>
+  <cross_sections>/home/jlball/Desktop/ENDF VIII.1/endfb80_hdf5/cross_sections.xml</cross_sections>
+  <material id="1" name="plasma">
+    <density units="g/cm3" value="1e-05" />
+    <nuclide ao="0.99984426" name="H1" />
+    <nuclide ao="0.00015574" name="H2" />
+  </material>
+  <material depletable="true" id="4" name="inboard_blanket">
+    <density units="g/cm3" value="203.52" />
+    <nuclide ao="0.1406277151061211" name="Be9" />
+    <nuclide ao="0.021344474598807065" name="Li6" />
+    <nuclide ao="0.25991095561343514" name="Li7" />
+    <nuclide ao="0.5749956558302062" name="F19" />
+    <nuclide ao="0.0030985451901667438" name="U238" />
+    <nuclide ao="2.2485116525704788e-05" name="U235" />
+    <nuclide ao="1.6854473797724298e-07" name="U234" />
+  </material>
+  <material depletable="true" id="5" name="outboard_blanket">
+    <density units="g/cm3" value="203.52" />
+    <nuclide ao="0.1406277151061211" name="Be9" />
+    <nuclide ao="0.021344474598807065" name="Li6" />
+    <nuclide ao="0.25991095561343514" name="Li7" />
+    <nuclide ao="0.5749956558302062" name="F19" />
+    <nuclide ao="0.0030985451901667438" name="U238" />
+    <nuclide ao="2.2485116525704788e-05" name="U235" />
+    <nuclide ao="1.6854473797724298e-07" name="U234" />
+  </material>
+  <material id="6" name="vv">
+    <density units="g/cm3" value="19.3" />
+    <nuclide ao="0.1431" name="W183" />
+    <nuclide ao="0.265" name="W182" />
+    <nuclide ao="0.0012" name="W180" />
+    <nuclide ao="0.3064" name="W184" />
+    <nuclide ao="0.2843" name="W186" />
+  </material>
+</materials>

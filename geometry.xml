@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<geometry>
+  <cell fill="1" id="9999" region="-9999 -9991" universe="2" />
+  <dagmc_universe filename="dagmc.h5m" id="1" />
+  <surface boundary="reflective" coeffs="0.0 -1.0 0.0 0.0" id="9991" type="plane" />
+  <surface boundary="vacuum" coeffs="0.0 0.0 0.0 10000" id="9999" type="sphere" />
+</geometry>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tallies>
+  <tally id="1" name="tbr">
+    <scores>(n,Xt)</scores>
+  </tally>
+  <tally id="3" name="pbr">
+    <nuclides>U238</nuclides>
+    <scores>absorption</scores>
+  </tally>
+  <tally id="2" name="Be">
+    <scores>(n,2n)</scores>
+  </tally>
+  <tally id="4" name="fis">
+    <scores>fission</scores>
+  </tally>
+</tallies>
