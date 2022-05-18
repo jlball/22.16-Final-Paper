@@ -13,6 +13,8 @@ first_wall_thickness = 1
 inboard_blanket_thickness = 100
 outboard_blanket_thickness = 120
 rotation_angle = 180
+num_points = 200
+
 
 plasma = paramak.Plasma(
    major_radius=330,
@@ -31,7 +33,8 @@ blanket_inboard = paramak.BlanketFP(inboard_blanket_thickness,
    offset_from_plasma=plasma_offset,
    rotation_angle=rotation_angle,
    name='inboard_blanket',
-   color=[0.01176, 0.988, 0.776]
+   color=[0.01176, 0.988, 0.776],
+   num_points = num_points
 )
 
 blanket_outboard = paramak.BlanketFP(outboard_blanket_thickness, 
@@ -41,7 +44,8 @@ blanket_outboard = paramak.BlanketFP(outboard_blanket_thickness,
    offset_from_plasma=plasma_offset,
    rotation_angle=rotation_angle,
    name='outboard_blanket',
-   color=[0.01176, 0.988, 0.776]
+   color=[0.01176, 0.988, 0.776],
+   num_points = num_points
 )
 
 vv = paramak.BlanketFP(vv_thickness, 
@@ -51,7 +55,8 @@ vv = paramak.BlanketFP(vv_thickness,
    offset_from_plasma=plasma_offset - vv_thickness - 1,
    rotation_angle=rotation_angle,
    name='vv',
-   color=[0.4, 0.4, 0.4]
+   color=[0.4, 0.4, 0.4],
+   num_points = num_points
 )
 
 first_wall = paramak.BlanketFP(first_wall_thickness, 
@@ -61,7 +66,8 @@ first_wall = paramak.BlanketFP(first_wall_thickness,
    offset_from_plasma=plasma_offset - vv_thickness - first_wall_thickness - 2,
    rotation_angle=rotation_angle,
    name='first_wall',
-   color=[0.6, 0.6, 0.6]
+   color=[0.6, 0.6, 0.6],
+   num_points = num_points
 )
 
 arc_reactor = paramak.Reactor(shapes_and_components = [plasma, vv, blanket_outboard, blanket_inboard])
