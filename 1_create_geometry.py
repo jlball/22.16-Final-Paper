@@ -143,12 +143,11 @@ ob_tank = paramak.BlanketFP(outboard_blanket_thickness,
    num_points = num_points
 )
 
-
 vv = paramak.BlanketFP(vv_thickness, 
    -90,
    270, 
    plasma=plasma,
-   offset_from_plasma=plasma_offset - vv_thickness,
+   offset_from_plasma=plasma_offset - vv_thickness - 1,
    rotation_angle=rotation_angle,
    name='vv',
    color=vv_c,
@@ -176,8 +175,8 @@ arc_reactor.export_html('arc_reactor_2d.html')
 #print("total volume:", (blanket_inboard.volume() + blanket_outboard.volume())*1e-6)
 
 arc_reactor.export_dagmc_h5m(
-   volume_atol=1e-2,
-   center_atol=1e-2,
-   bounding_box_atol=1e-2
+   volume_atol=1e-4,
+   center_atol=1e-4,
+   bounding_box_atol=1e-4
 )
 

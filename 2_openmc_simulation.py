@@ -9,34 +9,65 @@ mat_plasma.add_element("H", 1, "ao")
 mat_plasma.set_density("g/cm3", 0.00001)
 
 # Use of Inconel-718 superalloy comes from 2015 ARC paper
-#inconel = nmm.Material.from_library('Inconel-718')
+ob_inconel = nmm.Material.from_library('Inconel-718')
+ib_inconel = nmm.Material.from_library('Inconel-718')
+
 #mat_first_wall = inconel.openmc_material
 #mat_first_wall.name = 'first_wall'
 
 #Blanket is taken to be a mixture of UF4 and FLiBe
-flibe = openmc.Material(name='flibe')
-flibe.add_elements_from_formula("BeLi2F4") #Taken from https://en.wikipedia.org/wiki/FLiBe
-flibe.set_density("g/cm3", 1.94)
+tank_flibe = openmc.Material(name='tank_flibe')
+tank_flibe.add_elements_from_formula("BeLi2F4", enrichment_target='Li6', enrichment=100) #Taken from https://en.wikipedia.org/wiki/FLiBe
+tank_flibe.set_density("g/cm3", 1.94)
+
+cc_flibe = openmc.Material(name='cc_flibe')
+cc_flibe.add_elements_from_formula("BeLi2F4", enrichment_target='Li6', enrichment=0) #Taken from https://en.wikipedia.org/wiki/FLiBe
+cc_flibe.set_density("g/cm3", 1.94)
 
 uf4 = openmc.Material(name='uf4')
 uf4.add_elements_from_formula('UF4') # Taken from https://en.wikipedia.org/wiki/Uranium_tetrafluoride
 uf4.set_density("g/cm3", 6.7)
 
-percent_fertile = 2
+# Percent by volume of fertile dopant in the blanket
+percent_fertile = 0
 
-mat_inboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_blanket")
-mat_outboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_blanket")
+mat_ib_tank = openmc.Material.mix_materials([tank_flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_tank")
+mat_ob_tank = openmc.Material.mix_materials([tank_flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_tank")
+
+mat_ib_cc = openmc.Material.mix_materials([cc_flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_cc")
+mat_ob_cc = openmc.Material.mix_materials([cc_flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_cc")
+
+mat_ib_mult = openmc.Material(name='inboard_multiplier')
+mat_ib_mult.add_element('Pb', 1, 'ao')
+mat_ib_mult.set_density('g/cm3', 11.3)
+
+mat_ob_mult = openmc.Material(name='outboard_multiplier')
+mat_ob_mult.add_element('Pb', 1, 'ao')
+mat_ob_mult.set_density('g/cm3', 11.3)
 
 mat_vv = openmc.Material(name="vv")
 mat_vv.add_element("W", 1, "ao")
 mat_vv.set_density("g/cm3", 19.3)
 
+mat_ob_outer_vv = ob_inconel.openmc_material
+mat_ob_outer_vv.name = 'outboard_outer_vv'
+
+mat_ib_outer_vv = ib_inconel.openmc_material
+mat_ib_outer_vv.name = 'inboard_outer_vv'
+
+
 materials = openmc.Materials(
     [
 	mat_plasma,
-	mat_outboard_blanket,
-	mat_inboard_blanket,
 	mat_vv,
+    mat_ib_tank,
+    mat_ib_cc,
+    mat_ib_mult,
+    mat_ib_outer_vv,
+    mat_ob_tank,
+    mat_ob_cc,
+    mat_ob_mult,
+    mat_ob_outer_vv
     ]
 )
 
@@ -91,7 +122,7 @@ my_source.energy = openmc.stats.Muir(e0=14080000.0, m_rat=5.0, kt=20000.0)
 # specifies the simulation computational intensity
 settings = openmc.Settings()
 settings.batches = 10
-settings.particles = 100000
+settings.particles = 250000
 settings.inactive = 0
 settings.run_mode = "fixed source"
 settings.source = my_source
@@ -123,12 +154,12 @@ fis_tally.scores = ['fission']
 tallies = openmc.Tallies([trit_tally, plut_tally, Be_tally, fis_tally])
 
 # builds the openmc model
-my_model = openmc.Model(
+model = openmc.Model(
     materials=materials, geometry=geometry, settings=settings, tallies=tallies
 )
 
 # starts the simulation
-my_model.run(threads=60)
+model.run(threads=32)
 
 
 
