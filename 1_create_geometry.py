@@ -72,15 +72,15 @@ first_wall = paramak.BlanketFP(first_wall_thickness,
 
 arc_reactor = paramak.Reactor(shapes_and_components = [plasma, vv, blanket_outboard, blanket_inboard])
 
-arc_reactor.export_html_3d('arc_reactor.html')
-arc_reactor.export_html('arc_reactor_2d.html')
+#arc_reactor.export_html_3d('arc_reactor.html')
+#arc_reactor.export_html('arc_reactor_2d.html')
 
 print("inboard volume:", blanket_inboard.volume())
 print("outboard volume:", blanket_outboard.volume())
 print("total volume:", (blanket_inboard.volume() + blanket_outboard.volume())*1e-6)
 
-#arc_reactor.export_dagmc_h5m(
-#   volume_atol=1e-6,
-#   center_atol=1e-6,
-#)
+arc_reactor.export_dagmc_h5m(
+   volume_atol=1e-6,
+   center_atol=1e-6,
+)
 
