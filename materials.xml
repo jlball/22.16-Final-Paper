@@ -7,24 +7,24 @@
     <nuclide ao="0.00015574" name="H2" />
   </material>
   <material depletable="true" id="4" name="inboard_blanket" volume="153000000.0">
-    <density units="g/cm3" value="194.11899999999997" />
-    <nuclide ao="0.02167864600642458" name="Li6" />
-    <nuclide ao="0.26398014970347894" name="Li7" />
-    <nuclide ao="0.14282939785495175" name="Be9" />
-    <nuclide ao="0.5714729634320772" name="F19" />
-    <nuclide ao="2.0975221656481006e-09" name="U234" />
-    <nuclide ao="2.798249940986837e-07" name="U235" />
-    <nuclide ao="3.856108055129309e-05" name="U238" />
+    <density units="g/cm3" value="198.76" />
+    <nuclide ao="0.02151404432210957" name="Li6" />
+    <nuclide ao="0.26197580048102087" name="Li7" />
+    <nuclide ao="0.14174492240156522" name="Be9" />
+    <nuclide ao="0.5732081241574957" name="F19" />
+    <nuclide ao="8.40838664416697e-08" name="U234" />
+    <nuclide ao="1.1217410626773863e-05" name="U235" />
+    <nuclide ao="0.001545807143315483" name="U238" />
   </material>
   <material depletable="true" id="5" name="outboard_blanket" volume="153000000.0">
-    <density units="g/cm3" value="194.11899999999997" />
-    <nuclide ao="0.02167864600642458" name="Li6" />
-    <nuclide ao="0.26398014970347894" name="Li7" />
-    <nuclide ao="0.14282939785495175" name="Be9" />
-    <nuclide ao="0.5714729634320772" name="F19" />
-    <nuclide ao="2.0975221656481006e-09" name="U234" />
-    <nuclide ao="2.798249940986837e-07" name="U235" />
-    <nuclide ao="3.856108055129309e-05" name="U238" />
+    <density units="g/cm3" value="198.76" />
+    <nuclide ao="0.02151404432210957" name="Li6" />
+    <nuclide ao="0.26197580048102087" name="Li7" />
+    <nuclide ao="0.14174492240156522" name="Be9" />
+    <nuclide ao="0.5732081241574957" name="F19" />
+    <nuclide ao="8.40838664416697e-08" name="U234" />
+    <nuclide ao="1.1217410626773863e-05" name="U235" />
+    <nuclide ao="0.001545807143315483" name="U238" />
   </material>
   <material id="6" name="vv">
     <density units="g/cm3" value="19.3" />

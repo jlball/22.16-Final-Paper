@@ -24,7 +24,7 @@ uf4 = openmc.Material(name='uf4')
 uf4.add_elements_from_formula('UF4') # Taken from https://en.wikipedia.org/wiki/Uranium_tetrafluoride
 uf4.set_density("g/cm3", 6.7)
 
-percent_fertile = 0.025
+percent_fertile = 1
 
 mat_inboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_blanket")
 mat_outboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_blanket")
@@ -51,8 +51,8 @@ materials = openmc.Materials(
 #    materials=materials
 #)
 
-openmc.Materials.cross_sections = '/home/jlball/Desktop/ENDF VIII.1/endfb80_hdf5/cross_sections.xml' 
-
+openmc.Materials.cross_sections = '/home/jlball/Desktop/endfb71/endfb71_hdf5/cross_sections.xml' 
+ 
 # makes use of the dagmc geometry
 dag_univ = openmc.DAGMCUniverse("dagmc.h5m")
 
@@ -143,14 +143,14 @@ chain_filename = 'chain_endfb71.xml'
 chain = openmc.deplete.Chain.from_xml(chain_filename)
 
 
-operator = openmc.deplete.Operator(model, chain_filename)
+operator = openmc.deplete.Operator(model, chain_filename, normalization_mode='source-rate')
 
 # 1.86e20 neutrons per second for 5 months
-time_steps = [1*60*60] * 5
-source_rates = [1.86e20]* 5
+time_steps = [80*60*60] * 10
+source_rates = [1.86e20]* 10
 
 integrator = openmc.deplete.CECMIntegrator(
-    operator=operator, timesteps=time_steps,source_rates=source_rates
+    operator=operator, timesteps=time_steps, source_rates=source_rates, 
 )
 
 integrator.integrate()
