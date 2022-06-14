@@ -29,8 +29,9 @@ percent_fertile = 1
 mat_inboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_blanket")
 mat_outboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_blanket")
 
-mat_inboard_blanket.volume = 153e6
-mat_outboard_blanket.volume = 153e6
+# Volumes needed for depletion calculation. These values obtained from the paramak script which generated the DAGMC geometry.
+mat_inboard_blanket.volume = 36610578 #cm^3
+mat_outboard_blanket.volume = 116258550 #cm^3
 
 mat_vv = openmc.Material(name="vv")
 mat_vv.add_element("W", 1, "ao")
@@ -146,8 +147,8 @@ chain = openmc.deplete.Chain.from_xml(chain_filename)
 operator = openmc.deplete.Operator(model, chain_filename, normalization_mode='source-rate')
 
 # 1.86e20 neutrons per second for 5 months
-time_steps = [80*60*60] * 10
-source_rates = [1.86e20]* 10
+time_steps = [80*60*60] * 20
+source_rates = [1.86e20]* 20
 
 integrator = openmc.deplete.CECMIntegrator(
     operator=operator, timesteps=time_steps, source_rates=source_rates, 
