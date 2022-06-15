@@ -97,7 +97,7 @@ my_source.energy = openmc.stats.Muir(e0=14080000.0, m_rat=5.0, kt=20000.0)
 # specifies the simulation computational intensity
 settings = openmc.Settings()
 settings.batches = 10
-settings.particles = 1000
+settings.particles = 5000
 settings.inactive = 0
 settings.run_mode = "fixed source"
 settings.source = my_source
@@ -146,9 +146,9 @@ chain = openmc.deplete.Chain.from_xml(chain_filename)
 
 operator = openmc.deplete.Operator(model, chain_filename, normalization_mode='source-rate')
 
-# 1.86e20 neutrons per second for 5 months
-time_steps = [80*60*60] * 20
-source_rates = [1.86e20]* 20
+# 1.86e20 neutrons per second for 20 80 hour timesteps
+time_steps = [80*60*60] * 10
+source_rates = [1.86e20]* 10
 
 integrator = openmc.deplete.CECMIntegrator(
     operator=operator, timesteps=time_steps, source_rates=source_rates, 
