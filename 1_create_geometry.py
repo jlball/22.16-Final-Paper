@@ -175,7 +175,7 @@ arc_reactor = paramak.Reactor(shapes_and_components = [plasma, vv, ob_cooling_ch
 #print("total volume:", (blanket_inboard.volume() + blanket_outboard.volume())*1e-6)
 
 arc_reactor.export_dagmc_h5m(
-   min_mesh_size=5,
+   min_mesh_size=1,
    max_mesh_size=20
 )
 
