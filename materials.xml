@@ -7,24 +7,24 @@
     <nuclide ao="0.00015574" name="H2" />
   </material>
   <material depletable="true" id="4" name="inboard_blanket" volume="36610578">
-    <density units="g/cm3" value="198.76" />
+    <density units="g/cm3" value="1.9876000000000003" />
     <nuclide ao="0.02151404432210957" name="Li6" />
     <nuclide ao="0.26197580048102087" name="Li7" />
     <nuclide ao="0.14174492240156522" name="Be9" />
     <nuclide ao="0.5732081241574957" name="F19" />
-    <nuclide ao="8.40838664416697e-08" name="U234" />
+    <nuclide ao="8.408386644166969e-08" name="U234" />
     <nuclide ao="1.1217410626773863e-05" name="U235" />
-    <nuclide ao="0.001545807143315483" name="U238" />
+    <nuclide ao="0.0015458071433154827" name="U238" />
   </material>
   <material depletable="true" id="5" name="outboard_blanket" volume="116258550">
-    <density units="g/cm3" value="198.76" />
+    <density units="g/cm3" value="1.9876000000000003" />
     <nuclide ao="0.02151404432210957" name="Li6" />
     <nuclide ao="0.26197580048102087" name="Li7" />
     <nuclide ao="0.14174492240156522" name="Be9" />
     <nuclide ao="0.5732081241574957" name="F19" />
-    <nuclide ao="8.40838664416697e-08" name="U234" />
+    <nuclide ao="8.408386644166969e-08" name="U234" />
     <nuclide ao="1.1217410626773863e-05" name="U235" />
-    <nuclide ao="0.001545807143315483" name="U238" />
+    <nuclide ao="0.0015458071433154827" name="U238" />
   </material>
   <material id="6" name="vv">
     <density units="g/cm3" value="19.3" />

@@ -22,10 +22,12 @@ uf4 = openmc.Material(name='uf4')
 uf4.add_elements_from_formula('UF4') # Taken from https://en.wikipedia.org/wiki/Uranium_tetrafluoride
 uf4.set_density("g/cm3", 6.7)
 
-percent_fertile = 2
+percent_fertile = 5/100
 
-mat_inboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_blanket")
-mat_outboard_blanket = openmc.Material.mix_materials([flibe, uf4], [100 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_blanket")
+mat_inboard_blanket = openmc.Material.mix_materials([flibe, uf4], [1 - percent_fertile, percent_fertile], percent_type='vo', name="inboard_blanket")
+mat_outboard_blanket = openmc.Material.mix_materials([flibe, uf4], [1 - percent_fertile, percent_fertile], percent_type='vo', name="outboard_blanket")
+
+print('density', mat_inboard_blanket.get_mass_density())
 
 mat_vv = openmc.Material(name="vv")
 mat_vv.add_element("W", 1, "ao")

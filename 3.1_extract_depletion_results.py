@@ -6,52 +6,91 @@ import numpy as np
 #Converts number of atoms to kg of that isotope
 def convert_to_kg(num_atoms, isotope):
     moles = num_atoms / (6.022e23) #divide by avogadro number to get in moles
-    mass = moles * data.atomic_mass(isotope) / 1000 #in kg (atmoic mass is molar mass in units of g/mol)
+    mass = (moles * data.atomic_mass(isotope))*0.001 #in kg (atmoic mass is molar mass in units of g/mol)
     return mass
 
-results = openmc.deplete.ResultsList.from_hdf5("depletion_results.h5")
+#Retrieve the mass of a particular isotope in the blanket
+def get_mass(isotope):
+    _, atoms_in = results.get_atoms('4', isotope)
+    _, atoms_out = results.get_atoms('5', isotope)
 
-times, Pu_atoms = results.get_atoms("4", 'Pu239') 
-_, Pu_atoms_2 = results.get_atoms("5", 'Pu239')
-_, U_atoms = results.get_atoms("4", 'U238')
-_, Li_atoms = results.get_atoms("4", 'Li7')
-_, Te_atoms = results.get_atoms("4", 'Te132')
-_, I_atoms = results.get_atoms("4", 'I132')
+    mass = convert_to_kg(atoms_in + atoms_out, isotope)
+    return mass
 
-_, Pu_rxn_rates = results.get_reaction_rate("4", 'Pu239', 'fission')
+# Go from a fission rate to a fission power
+def get_fis_power(isotope):
+    _, fis_rate_in = results.get_reaction_rate("4", isotope, 'fission')
+    _, fis_rate_out = results.get_reaction_rate("5", isotope, 'fission')
+    power = (fis_rate_in + fis_rate_out) * 200 * 1.602e-13 * 1e-6 #Covert from rate to MW of power
+    return power
 
-times = times /(60 * 60) #Convert to hours
-Pu_atoms = (Pu_atoms + Pu_atoms_2) #Convert to units of IAEA significant quantity
+def plot_results(results):
 
-Pu_mass = convert_to_kg(Pu_atoms, 'Pu239')
+    results = openmc.deplete.ResultsList.from_hdf5("depletion_results.h5")
+    times, _ = results.get_atoms("4", 'Pu239') 
 
+    #List of plutonium isotopes whose masses will be plotted
+    plut_isotopes = ['Pu238', 'Pu239', 'Pu240', 'Pu241']
 
-fis_vals = np.empty(len(times))
-tbr_vals = np.empty(len(times))
-tbr_std = np.empty(len(times))
-for i in range(0, len(times)):
-    sp = openmc.StatePoint(f'openmc_simulation_n{i}.h5')
-    
-    #Extract TBR values and std dev at each step in the simulation
-    tbr_tally = sp.get_tally(name='tbr')
-    tbr_vals[i] = tbr_tally.mean
-    tbr_std[i] = tbr_tally.std_dev
+    #List of fissile isotopes whose fission powers will be plotted
+    fis_isotopes = ['Pu239', 'Pu241', "U235", 'U238']
 
-    fis_tally = sp.get_tally(name='fis')
-    fis_vals[i] = fis_tally.mean
+    #List of fission products whose masses will be plotted
+    fis_products = ['Cs137', 'Sr90', 'Pm147']
 
+    times = times /(365 * 24 * 60 * 60) #Convert to years
 
-fig, ax = plt.subplots()
-ax.errorbar(times, tbr_vals, yerr=tbr_std, capsize=4)
-#ax.plot(times, Pu_rxn_rates)
-#ax.plot(times, U_atoms)
-#ax.plot(times, Li_atoms)
-#ax.plot(times, Te_atoms)
-#ax.plot(times, I_atoms)
-#ax.set_yscale('log')
+    #Extract fission and TBR values from statepoint files
+    tbr_std, tbr_vals, fis_std, fis_vals = np.empty(len(times)), np.empty(len(times)), np.empty(len(times)), np.empty(len(times))
+    for i in range(0, len(times)):
+        sp = openmc.StatePoint(f'openmc_simulation_n{i}.h5')
+        
+        #Extract TBR values and std dev at each step in the simulation
+        tbr_tally = sp.get_tally(name='tbr')
+        tbr_vals[i] = tbr_tally.mean
+        tbr_std[i] = tbr_tally.std_dev
 
-ax.set(xlabel='time (hrs)', ylabel='Mass (kg)',
-       title='Build up of Pu-239 in 1 percent Fertile Blanket')
-ax.grid()
-plt.show()
+        #Extract fission rates and std devs from each transport simulation
+        fis_tally = sp.get_tally(name='fis')
+        fis_vals[i] = fis_tally.mean
+        fis_std[i] = fis_tally.std_dev
+
+    #Convert fission tally result to power in megawatts: total source rate (Hz) * energy per fission in MeV * joules/MeV * MW/W
+    fis_power = fis_vals * 1.86e20 * 200 * 1.602e-13 * 1e-6 
+
+    ### Plotting ###
+    fig, axs = plt.subplots(2, 2)
+
+    #Plot of Plutonium Mass
+    for iso in plut_isotopes:
+        axs[0, 0].plot(times, get_mass(iso), label=iso)
+    axs[0, 0].set(xlabel='time (years)', ylabel='Mass (kg)',
+        title='Build up of Plutonium Isotopes in 1 percent Fertile Blanket')
+    axs[0, 0].legend()
+    axs[0, 0].grid()
+
+    #Plot of fission power
+    axs[1, 0].plot(times, fis_power, label='Total Fission Power')
+    for iso in fis_isotopes:
+        axs[1, 0].plot(times, get_fis_power(iso), label=iso)
+    axs[1, 0].set(xlabel='time (years)', ylabel='Power (MW)',
+        title='Fission Power in 1 percent Fertile Blanket')
+    axs[1, 0].legend()
+    axs[1, 0].grid()
+
+    #Plot of Uranium mass
+    axs[0, 1].plot(times, get_mass('U238'), label='U238')
+    axs[0, 1].set(xlabel='time (years)', ylabel='Mass (kg)',
+        title='Mass of U238 in 1 percent Fertile Blanket')
+    axs[0, 1].grid()
+
+    #Plot of fission product masses
+    for iso in fis_products:
+        axs[1, 1].plot(times, get_mass(iso), label=iso)
+    axs[1, 1].set(xlabel='time (years)', ylabel='Mass (kg)',
+        title='Mass of Certain Fission Products in 1 percent Fertile Blanket')
+    axs[1, 1].legend()
+    axs[1, 1].grid()
+
+    plt.show()
 
