@@ -48,7 +48,7 @@ def create_openmc_model(percent_fertile, dag_univ, batches, particles):
         ]
     )
 
-    openmc.Materials.cross_sections = '/home/jlball/Desktop/endfb71/endfb71_hdf5/cross_sections.xml' 
+    # openmc.Materials.cross_sections = '/home/jlball/Desktop/endfb71/endfb71_hdf5/cross_sections.xml' 
     
     # makes use of the dagmc geometry
     # dag_univ = openmc.DAGMCUniverse("dagmc.h5m")
