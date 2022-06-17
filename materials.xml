@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <materials>
-  <cross_sections>/home/jlball/Desktop/endfb71/endfb71_hdf5/cross_sections.xml</cross_sections>
   <material id="1" name="plasma">
     <density units="g/cm3" value="1e-05" />
     <nuclide ao="0.99984426" name="H1" />

@@ -20,7 +20,7 @@ chain = openmc.deplete.Chain.from_xml(chain_filename)
 operator = openmc.deplete.Operator(model, chain_filename, normalization_mode='source-rate')
 
 #Set the timesteps and source rates to use for the depletion simulation
-time_steps = [1000000*60*60] * 10
+time_steps = [100000*60*60] * 10
 source_rates = [1.86e20]* 10
 
 #Run the depletion simulation using a integration algorithm of choice
