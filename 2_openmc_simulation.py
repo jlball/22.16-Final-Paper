@@ -1,7 +1,6 @@
 import math
 import numpy as np
 import openmc
-import openmc_data_downloader as odd
 import neutronics_material_maker as nmm
 
 mat_plasma = openmc.Material(name="plasma")
@@ -48,7 +47,7 @@ materials = openmc.Materials(
 #    materials=materials
 #)
 
-openmc.Materials.cross_sections = '/home/jlball/Desktop/ENDF VIII.1/endfb80_hdf5/cross_sections.xml' 
+openmc.Materials.cross_sections = '/home/jlball/downloads/endfb71_hdf5/cross_sections.xml' 
 
 # makes use of the dagmc geometry
 dag_univ = openmc.DAGMCUniverse("dagmc.h5m")
@@ -130,7 +129,7 @@ my_model = openmc.Model(
 )
 
 # starts the simulation
-my_model.run(threads=60)
+my_model.run(threads=8)
 
 
 
